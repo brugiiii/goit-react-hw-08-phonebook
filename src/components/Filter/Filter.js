@@ -1,8 +1,8 @@
 // react
 import { useSelector, useDispatch } from 'react-redux';
 // redux
-import { changeFilter } from 'redux/filterSlice';
-import { selectFilter } from 'redux/selectors';
+import { changeFilter } from 'redux/filter/filterSlice';
+import { selectFilter } from 'redux/filter/filter-selectors';
 // styles
 import { Label, Input } from './Filter.styled';
 
@@ -15,7 +15,13 @@ export const Filter = () => {
   return (
     <Label>
       Find contacts by name
-      <Input type="text" name="filter" onChange={handleChange} value={filter} />
+      <Input
+        placeholder="Find"
+        type="text"
+        name="filter"
+        onChange={handleChange}
+        value={filter}
+      />
     </Label>
   );
 };

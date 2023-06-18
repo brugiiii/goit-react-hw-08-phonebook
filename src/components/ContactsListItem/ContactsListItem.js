@@ -1,15 +1,21 @@
-import { ListItem, Button } from './ContactsListItem.styled';
-import { useDeleteContactMutation } from 'services/contactsAPI';
+import { ListItem, Button, Name, Number } from './ContactsListItem.styled';
+import { deleteContact } from 'redux/contacts/contacts-operations';
+import { useDispatch } from 'react-redux';
+
+import { useState } from 'react';
 
 export const ContactsListItem = ({ id, name, number }) => {
-  const [deleteContact, { isLoading }] = useDeleteContactMutation();
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <ListItem>
-      {name}: {number}
+      <Name>{name}</Name>
+      <Number href={`tel:${number}`}>{number}</Number>
       <Button
         onClick={() => {
-          deleteContact(id);
+          dispatch(deleteContact(id));
+          setIsLoading(true);
         }}
         disabled={isLoading}
       >

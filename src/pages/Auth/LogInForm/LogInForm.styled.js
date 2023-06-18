@@ -32,7 +32,6 @@ export const Label = styled.label`
 `;
 
 export const Button = styled.button`
-  position: relative;
   font-size: 16px;
 
   width: 150px;

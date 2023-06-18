@@ -1,23 +1,30 @@
 // redux
-import { useGetContactsQuery } from 'services/contactsAPI';
-import { useSelector } from 'react-redux';
-import { selectFilter } from 'redux/selectors';
-
+import { useDispatch, useSelector } from 'react-redux';
+// import { fetchContacts } from 'redux/contacts/contacts-operations';
 // components
 import { TailSpin } from 'react-loader-spinner';
 import { ContactsListItem } from '../ContactsListItem';
+import {
+  selectFilteredContacts,
+  selectIsContactsFetching,
+} from 'redux/contacts/contacts-selectors';
 
 // styles
+
+import { fetchContacts } from 'redux/contacts/contacts-operations';
+
 import { ContactsListEl } from './ContactsList.styled';
+import { useEffect } from 'react';
 
 export const ContactsList = () => {
-  const { data, isLoading } = useGetContactsQuery();
+  const dispatch = useDispatch();
 
-  const loweredFilter = useSelector(selectFilter).toLowerCase();
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
-  const contacts =
-    !isLoading &&
-    data.filter(contact => contact.name.toLowerCase().includes(loweredFilter));
+  const contacts = useSelector(selectFilteredContacts);
+  const isLoading = useSelector(selectIsContactsFetching);
 
   return (
     <ContactsListEl>
@@ -25,7 +32,7 @@ export const ContactsList = () => {
         <TailSpin
           height="80"
           width="80"
-          color="#fff"
+          color="tomato"
           ariaLabel="tail-spin-loading"
           radius="1"
           wrapperStyle={{ marginLeft: 'auto', marginRight: 'auto' }}
