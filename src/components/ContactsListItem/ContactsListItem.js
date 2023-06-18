@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import { useState } from 'react';
 
-export const ContactsListItem = ({ id, name, number }) => {
+const ContactsListItem = ({ id, name, number }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -24,3 +24,5 @@ export const ContactsListItem = ({ id, name, number }) => {
     </ListItem>
   );
 };
+
+export default ContactsListItem;

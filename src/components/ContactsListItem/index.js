@@ -1,1 +1,1 @@
-export { ContactsListItem } from './ContactsListItem';
+export { default } from './ContactsListItem';

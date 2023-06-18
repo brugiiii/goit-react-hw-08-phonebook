@@ -20,7 +20,7 @@ const schema = object({
 
 const initialValues = { name: '', email: '', password: '' };
 
-export const SignUpForm = () => {
+const SignUpForm = () => {
   const dispatch = useDispatch();
 
   const onFormSubmit = (values, { resetForm }) => {
@@ -54,3 +54,5 @@ export const SignUpForm = () => {
     </Formik>
   );
 };
+
+export default SignUpForm;

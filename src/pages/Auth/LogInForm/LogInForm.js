@@ -19,7 +19,7 @@ const schema = object({
 
 const initialValues = { email: '', password: '' };
 
-export const LogInForm = () => {
+const LogInForm = () => {
   const dispatch = useDispatch();
 
   const onFormSubmit = (values, { resetForm }) => {
@@ -50,3 +50,5 @@ export const LogInForm = () => {
     </Formik>
   );
 };
+
+export default LogInForm;

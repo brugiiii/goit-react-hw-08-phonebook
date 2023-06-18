@@ -3,11 +3,11 @@ import { Formik } from 'formik';
 import { object, string, number } from 'yup';
 
 // redux
-import { addContact } from 'redux/contacts/contacts-operations';
 import {
   selectContacts,
   selectIsContactAdded,
 } from 'redux/contacts/contacts-selectors';
+import { addContact } from 'redux/contacts/contacts-operations';
 import { useDispatch, useSelector } from 'react-redux';
 
 // notification
@@ -25,8 +25,7 @@ import {
   Button,
   ErrorMessageEl,
 } from './ContactForm.styled';
-
-import { TailSpin } from 'react-loader-spinner';
+import Spinner from 'components/Spinner';
 
 const schema = object({
   name: string().required(),
@@ -87,20 +86,16 @@ export const ContactForm = () => {
           <Button type="submit" disabled={isLoading}>
             add contact
             {isLoading && (
-              <TailSpin
-                height="20"
-                width="20"
+              <Spinner
+                width={20}
+                height={20}
                 color="#3b5998"
-                ariaLabel="tail-spin-loading"
-                radius="1"
-                wrapperStyle={{
+                styles={{
                   position: 'absolute',
                   top: '50%',
                   marginTop: -10,
                   right: 6,
                 }}
-                wrapperClass=""
-                visible={true}
               />
             )}
           </Button>

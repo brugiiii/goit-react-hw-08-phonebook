@@ -1,24 +1,30 @@
+// react
+import { useEffect, lazy, Suspense } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+
+// redux
 
 import { fetchCurrentUser } from 'redux/auth/auth-operations';
-
-// components
-import ContactsBook from 'pages/ContactsBook';
-import AppBar from '../AppBar';
-import { LogInForm, SignUpForm } from 'pages/Auth';
-import Home from 'pages/Home';
-import NonExistentPage from 'pages/NonExistentPage';
+import { selectIsFetchingCurrentUser } from 'redux/auth/auth-selectors';
 
 // styledComponents
 import { Container } from './App.styled';
-
 import PrivateRoute from '../PrivateRoute';
 import PublicRoute from '../PublicRoute';
+import Spinner from 'components/Spinner';
+
+// components
+const AppBar = lazy(() => import('../AppBar'));
+const Home = lazy(() => import('pages/Home'));
+const ContactsBook = lazy(() => import('pages/ContactsBook'));
+const LogInForm = lazy(() => import('pages/Auth/LogInForm'));
+const SignUpForm = lazy(() => import('pages/Auth/SignUpForm'));
+const NonExistentPage = lazy(() => import('pages/NonExistentPage'));
 
 export const App = () => {
   const dispatch = useDispatch();
+  const isFetchingCurrentUser = useSelector(selectIsFetchingCurrentUser);
 
   useEffect(() => {
     dispatch(fetchCurrentUser());
@@ -26,54 +32,65 @@ export const App = () => {
 
   return (
     <Container>
-      <Routes>
-        <Route path="/" element={<AppBar />}>
-          <Route
-            index
-            element={
-              <PublicRoute>
-                <Home />
-              </PublicRoute>
-            }
+      <Suspense
+        fallback={
+          <Spinner
+            styles={{ justifyContent: 'center', marginTop: 150 }}
+            width={100}
+            height={100}
           />
-
-          <Route
-            path="contacts"
-            element={
-              <PrivateRoute>
-                <ContactsBook />
-              </PrivateRoute>
-            }
-          />
-
-          <Route
-            path="signup"
-            element={
-              <PublicRoute restricted>
-                <SignUpForm />
-              </PublicRoute>
-            }
-          />
-
-          <Route
-            path="login"
-            element={
-              <PublicRoute restricted>
-                <LogInForm />
-              </PublicRoute>
-            }
-          />
-
-          <Route
-            path="*"
-            element={
-              <PublicRoute>
-                <NonExistentPage />
-              </PublicRoute>
-            }
-          />
-        </Route>
-      </Routes>
+        }
+      >
+        <Routes>
+          <Route path="/" element={<AppBar />}>
+            {!isFetchingCurrentUser && (
+              <>
+                <Route
+                  index
+                  element={
+                    <PublicRoute>
+                      <Home />
+                    </PublicRoute>
+                  }
+                />
+                <Route
+                  path="contacts"
+                  element={
+                    <PrivateRoute>
+                      <ContactsBook />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="signup"
+                  element={
+                    <PublicRoute restricted>
+                      <SignUpForm />
+                    </PublicRoute>
+                  }
+                />
+                <Route
+                  path="login"
+                  element={
+                    <PublicRoute restricted>
+                      <LogInForm />
+                    </PublicRoute>
+                  }
+                />
+                <Route
+                  path="*"
+                  element={
+                    <PublicRoute>
+                      <NonExistentPage />
+                    </PublicRoute>
+                  }
+                />
+              </>
+            )}
+          </Route>
+        </Routes>
+      </Suspense>
     </Container>
+    // )
   );
 };

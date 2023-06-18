@@ -1,20 +1,20 @@
+// react
+import { useEffect } from 'react';
+
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-// import { fetchContacts } from 'redux/contacts/contacts-operations';
-// components
-import { TailSpin } from 'react-loader-spinner';
-import { ContactsListItem } from '../ContactsListItem';
+import { fetchContacts } from 'redux/contacts/contacts-operations';
 import {
   selectFilteredContacts,
   selectIsContactsFetching,
 } from 'redux/contacts/contacts-selectors';
 
+// components
+import Spinner from '../Spinner';
+import ContactsListItem from '../ContactsListItem';
+
 // styles
-
-import { fetchContacts } from 'redux/contacts/contacts-operations';
-
 import { ContactsListEl } from './ContactsList.styled';
-import { useEffect } from 'react';
 
 export const ContactsList = () => {
   const dispatch = useDispatch();
@@ -29,15 +29,7 @@ export const ContactsList = () => {
   return (
     <ContactsListEl>
       {isLoading ? (
-        <TailSpin
-          height="80"
-          width="80"
-          color="tomato"
-          ariaLabel="tail-spin-loading"
-          radius="1"
-          wrapperStyle={{ marginLeft: 'auto', marginRight: 'auto' }}
-          visible={true}
-        />
+        <Spinner width={80} height={80} styles={{ margin: '0 auto' }} />
       ) : (
         contacts.map(({ name, number, id }) => (
           <ContactsListItem key={id} name={name} number={number} id={id} />
