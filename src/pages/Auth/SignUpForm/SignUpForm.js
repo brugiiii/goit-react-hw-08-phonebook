@@ -1,8 +1,13 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { selectError } from 'redux/auth/auth-selectors';
 import { signUp } from 'redux/auth/auth-operations';
-import { useDispatch } from 'react-redux';
 
 import { Formik } from 'formik';
 import { object, string } from 'yup';
+
+import { toast } from 'react-toastify';
 
 import {
   FormEl,
@@ -22,11 +27,17 @@ const initialValues = { name: '', email: '', password: '' };
 
 const SignUpForm = () => {
   const dispatch = useDispatch();
+  const error = useSelector(selectError);
 
-  const onFormSubmit = (values, { resetForm }) => {
+  useEffect(() => {
+    error &&
+      toast.error(
+        'it seems that such a user already exists, try another email'
+      );
+  }, [error]);
+
+  const onFormSubmit = values => {
     dispatch(signUp(values));
-
-    resetForm();
   };
 
   return (

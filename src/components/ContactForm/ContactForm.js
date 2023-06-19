@@ -40,11 +40,15 @@ export const ContactForm = () => {
   const onFormSubmit = (values, { resetForm }) => {
     const loweredName = values.name.toLowerCase();
 
-    contacts.find(contact => contact.name.toLowerCase() === loweredName)
-      ? toast.error(`${values.name} is already in contacts`)
-      : dispatch(addContact(values)) &&
+    if (contacts.find(contact => contact.name.toLowerCase() === loweredName)) {
+      toast.error(`${values.name} is already in contacts`);
+    } else if (contacts.find(contact => contact.number === values.number)) {
+      toast.error(`${values.number} is already in contacts`);
+    } else {
+      dispatch(addContact(values)) &&
         toast.success(`${values.name} has been added to your contacts`) &&
         resetForm();
+    }
   };
 
   return (

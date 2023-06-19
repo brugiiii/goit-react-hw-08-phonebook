@@ -1,8 +1,13 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { logIn } from 'redux/auth/auth-operations';
-import { useDispatch } from 'react-redux';
+import { selectError } from 'redux/auth/auth-selectors';
 
 import { Formik } from 'formik';
 import { object, string } from 'yup';
+
+import { toast } from 'react-toastify';
 
 import {
   FormEl,
@@ -21,11 +26,14 @@ const initialValues = { email: '', password: '' };
 
 const LogInForm = () => {
   const dispatch = useDispatch();
+  const error = useSelector(selectError);
 
-  const onFormSubmit = (values, { resetForm }) => {
+  useEffect(() => {
+    error && toast.error('User not found, please try again');
+  }, [error]);
+
+  const onFormSubmit = values => {
     dispatch(logIn(values));
-
-    resetForm();
   };
 
   return (
