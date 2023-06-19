@@ -4,9 +4,13 @@ import { selectIsLoggedIn } from 'redux/auth/auth-selectors';
 
 import { toast } from 'react-toastify';
 
-export default function PublicRoute({ children, restricted = false }) {
+export default function PublicRoute({
+  component: Component,
+  redirectTo = '/',
+  restricted = false,
+}) {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const shouldRedirect = isLoggedIn && restricted && toast.success('Welcome!');
 
-  return shouldRedirect ? <Navigate to="/" replace /> : children;
+  return shouldRedirect ? <Navigate to={redirectTo} replace /> : Component;
 }

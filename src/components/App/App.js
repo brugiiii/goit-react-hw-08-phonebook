@@ -50,36 +50,35 @@ export const App = () => {
             <Route path="/" element={<AppBar />}>
               {!isFetchingCurrentUser && (
                 <>
-                  <Route
-                    index
-                    element={
-                      <PublicRoute>
-                        <Home />
-                      </PublicRoute>
-                    }
-                  />
+                  <Route index element={<PublicRoute component={<Home />} />} />
+
                   <Route
                     path="contacts"
                     element={
-                      <PrivateRoute>
-                        <ContactsBook />
-                      </PrivateRoute>
+                      <PrivateRoute
+                        component={<ContactsBook />}
+                        redirectTo="/login"
+                      />
                     }
                   />
                   <Route
                     path="signup"
                     element={
-                      <PublicRoute restricted>
-                        <SignUpForm />
-                      </PublicRoute>
+                      <PublicRoute
+                        component={<SignUpForm />}
+                        redirectTo="/contacts"
+                        restricted
+                      />
                     }
                   />
                   <Route
                     path="login"
                     element={
-                      <PublicRoute restricted>
-                        <LogInForm />
-                      </PublicRoute>
+                      <PublicRoute
+                        component={<LogInForm />}
+                        redirectTo="/contacts"
+                        restricted
+                      />
                     }
                   />
                   <Route
