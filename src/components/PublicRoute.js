@@ -8,5 +8,5 @@ export default function PublicRoute({ children, restricted = false }) {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const shouldRedirect = isLoggedIn && restricted && toast.success('Welcome!');
 
-  return shouldRedirect ? <Navigate to="/contacts" replace /> : children;
+  return shouldRedirect ? <Navigate to="/" replace /> : children;
 }
