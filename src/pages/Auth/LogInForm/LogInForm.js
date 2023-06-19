@@ -24,6 +24,8 @@ const LogInForm = () => {
 
   const onFormSubmit = (values, { resetForm }) => {
     dispatch(logIn(values));
+
+    resetForm();
   };
 
   return (

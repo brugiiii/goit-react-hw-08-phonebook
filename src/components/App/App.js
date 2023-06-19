@@ -14,6 +14,10 @@ import PrivateRoute from '../PrivateRoute';
 import PublicRoute from '../PublicRoute';
 import Spinner from 'components/Spinner';
 
+// Notification
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // components
 const AppBar = lazy(() => import('../AppBar'));
 const Home = lazy(() => import('pages/Home'));
@@ -31,66 +35,68 @@ export const App = () => {
   }, [dispatch]);
 
   return (
-    <Container>
-      <Suspense
-        fallback={
-          <Spinner
-            styles={{ justifyContent: 'center', marginTop: 150 }}
-            width={100}
-            height={100}
-          />
-        }
-      >
-        <Routes>
-          <Route path="/" element={<AppBar />}>
-            {!isFetchingCurrentUser && (
-              <>
-                <Route
-                  index
-                  element={
-                    <PublicRoute>
-                      <Home />
-                    </PublicRoute>
-                  }
-                />
-                <Route
-                  path="contacts"
-                  element={
-                    <PrivateRoute>
-                      <ContactsBook />
-                    </PrivateRoute>
-                  }
-                />
-                <Route
-                  path="signup"
-                  element={
-                    <PublicRoute restricted>
-                      <SignUpForm />
-                    </PublicRoute>
-                  }
-                />
-                <Route
-                  path="login"
-                  element={
-                    <PublicRoute restricted>
-                      <LogInForm />
-                    </PublicRoute>
-                  }
-                />
-                <Route
-                  path="*"
-                  element={
-                    <PublicRoute>
-                      <NonExistentPage />
-                    </PublicRoute>
-                  }
-                />
-              </>
-            )}
-          </Route>
-        </Routes>
-      </Suspense>
-    </Container>
-    // )
+    <>
+      <Container>
+        <Suspense
+          fallback={
+            <Spinner
+              styles={{ justifyContent: 'center', marginTop: 150 }}
+              width={100}
+              height={100}
+            />
+          }
+        >
+          <Routes>
+            <Route path="/" element={<AppBar />}>
+              {!isFetchingCurrentUser && (
+                <>
+                  <Route
+                    index
+                    element={
+                      <PublicRoute>
+                        <Home />
+                      </PublicRoute>
+                    }
+                  />
+                  <Route
+                    path="contacts"
+                    element={
+                      <PrivateRoute>
+                        <ContactsBook />
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
+                    path="signup"
+                    element={
+                      <PublicRoute restricted>
+                        <SignUpForm />
+                      </PublicRoute>
+                    }
+                  />
+                  <Route
+                    path="login"
+                    element={
+                      <PublicRoute restricted>
+                        <LogInForm />
+                      </PublicRoute>
+                    }
+                  />
+                  <Route
+                    path="*"
+                    element={
+                      <PublicRoute>
+                        <NonExistentPage />
+                      </PublicRoute>
+                    }
+                  />
+                </>
+              )}
+            </Route>
+          </Routes>
+        </Suspense>
+      </Container>
+      <ToastContainer />
+    </>
   );
 };

@@ -10,13 +10,6 @@ import {
 import { addContact } from 'redux/contacts/contacts-operations';
 import { useDispatch, useSelector } from 'react-redux';
 
-// notification
-import {
-  NotificationContainer,
-  NotificationManager,
-} from 'react-notifications';
-import 'react-notifications/lib/notifications.css';
-
 // styles
 import {
   FormEl,
@@ -26,6 +19,8 @@ import {
   ErrorMessageEl,
 } from './ContactForm.styled';
 import Spinner from 'components/Spinner';
+
+import { toast } from 'react-toastify';
 
 const schema = object({
   name: string().required(),
@@ -46,11 +41,10 @@ export const ContactForm = () => {
     const loweredName = values.name.toLowerCase();
 
     contacts.find(contact => contact.name.toLowerCase() === loweredName)
-      ? NotificationManager.error(
-          `${values.name} is already in contacts`,
-          'Error'
-        )
-      : dispatch(addContact(values)) && resetForm();
+      ? toast.error(`${values.name} is already in contacts`)
+      : dispatch(addContact(values)) &&
+        toast.success(`${values.name} has been added to your contacts`) &&
+        resetForm();
   };
 
   return (
@@ -101,8 +95,6 @@ export const ContactForm = () => {
           </Button>
         </FormEl>
       </Formik>
-
-      <NotificationContainer />
     </>
   );
 };

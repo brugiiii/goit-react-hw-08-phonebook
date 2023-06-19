@@ -25,6 +25,8 @@ const SignUpForm = () => {
 
   const onFormSubmit = (values, { resetForm }) => {
     dispatch(signUp(values));
+
+    resetForm();
   };
 
   return (

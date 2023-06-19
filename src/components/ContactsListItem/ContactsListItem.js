@@ -1,8 +1,9 @@
-import { ListItem, Button, Name, Number } from './ContactsListItem.styled';
-import { deleteContact } from 'redux/contacts/contacts-operations';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { useState } from 'react';
+import { ListItem, Button, Name, Number } from './ContactsListItem.styled';
+import { deleteContact } from 'redux/contacts/contacts-operations';
+import { toast } from 'react-toastify';
 
 const ContactsListItem = ({ id, name, number }) => {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const ContactsListItem = ({ id, name, number }) => {
         onClick={() => {
           dispatch(deleteContact(id));
           setIsLoading(true);
+          toast.success(`${name} has been removed from contacts`);
         }}
         disabled={isLoading}
       >
